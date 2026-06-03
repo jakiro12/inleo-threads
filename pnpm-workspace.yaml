@@ -1,0 +1,3 @@
+allowBuilds:
+  core-js: true
+  secp256k1: true
