@@ -1,6 +1,6 @@
 import { hiveClient } from "../client";
 
-export async function testPost(
+export async function getUserPost(
   author: string,
   permlink: string
 ) {

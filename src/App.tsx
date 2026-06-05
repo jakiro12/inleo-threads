@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { publishThread } from "./hive/publish/publishNewThread";
-import { testPost } from "./hive/node/tester";
+import { getUserPost } from "./hive/node/tester";
 
 function App() {
   const [username, setUsername] = useState("");
   const [body, setBody] = useState("");
   const [lastPermlink, setLastPermlink] = useState("");
-
+  const [lastPostUrl,setLastPostUrl]=useState<string>("")
   async function handlePublishThread() {
     try {
       const permlink = `re-leothreads-${Date.now()}`;
@@ -45,16 +45,14 @@ function App() {
         return;
       }
 
-      const post = await testPost(
+      const post = await getUserPost(
         username,
         lastPermlink
       );
-
       const postUrl =
   `https://hive.blog/hive-167922/@${post.author}/${post.permlink}`;
 
-      console.log(postUrl);
-      alert(postUrl);
+      setLastPostUrl(postUrl)     
     } catch (err) {
       console.error(err);
       alert("Error obteniendo publicación");
@@ -100,9 +98,7 @@ function App() {
 >
   {body.length}/240
 </div>
-      <br />
-      <br />
-
+    <div style={{columnGap:20}}>
       <button onClick={handlePublishThread}>
         Publicar Thread
       </button>
@@ -110,6 +106,13 @@ function App() {
       <button onClick={handleTest}>
         Ver publicación
       </button>
+    </div>
+    {
+      lastPostUrl === '' ? null :
+    <a href={lastPostUrl} target="_blank" >
+      <span>{lastPostUrl === '' ? null : lastPostUrl}</span>      
+    </a>
+    }
     </div>
   );
 }
