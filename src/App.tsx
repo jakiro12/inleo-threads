@@ -1,12 +1,17 @@
 import { useState } from "react";
+import "./App.css";
 import { publishThread } from "./hive/publish/publishNewThread";
 import { getUserPost } from "./hive/node/tester";
+import { useUser } from "./context/provider";
 
 function App() {
-  const [username, setUsername] = useState("");
   const [body, setBody] = useState("");
   const [lastPermlink, setLastPermlink] = useState("");
-  const [lastPostUrl,setLastPostUrl]=useState<string>("")
+  const [lastPostUrl, setLastPostUrl] = useState("");
+  const {username,isAuthenticated,login,setUsername}=useUser()
+
+
+
   async function handlePublishThread() {
     try {
       const permlink = `re-leothreads-${Date.now()}`;
@@ -19,13 +24,9 @@ function App() {
         "leothread-2026-06-01-14-26"
       );
 
-      console.log(result);
-
       if (result.success) {
         setLastPermlink(permlink);
         alert("Thread publicado");
-      } else {
-        alert(result.message || "Cancelado");
       }
     } catch (err) {
       console.error(err);
@@ -49,70 +50,99 @@ function App() {
         username,
         lastPermlink
       );
-      const postUrl =
-  `https://hive.blog/hive-167922/@${post.author}/${post.permlink}`;
 
-      setLastPostUrl(postUrl)     
+      const postUrl = `https://hive.blog/hive-167922/@${post.author}/${post.permlink}`;
+
+      setLastPostUrl(postUrl);
     } catch (err) {
       console.error(err);
       alert("Error obteniendo publicación");
     }
   }
+const handleLogin = async () => {
+  const success = await login(username);
 
+  if (!success) {
+    alert("Login cancelado");
+  }
+};
   return (
-    <div style={{ padding: 20 }}>
-      <h2>Publicar Thread en Inleo</h2>
+    <div className="app">
+      <div className="card">
+        <h1 className="title">
+          🚀 InLeo Re-poster Web 3.0
+        </h1>
 
-      <input
-        placeholder="Usuario Hive"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        style={{ width: 300 }}
-      />
+        <span className="description">
+          Comparte un enlace de tu contenido original,
+          añade una breve descripción y hashtags.
+          Tu publicación quedará registrada en Hive
+          y será accesible de forma permanente acumulando ganancias durante 7 dias.
+        </span>
+        {isAuthenticated === false ? 
+        <>
+        <div className="credentials_box">
+          <input type="text" 
+            value={username}
+            onChange={(e)=>setUsername(e.target.value)}
+          />
+        <button 
+        onClick={()=>handleLogin()}
+        className="btn btn-keychain">
+            Acceder con Hive Keychain
+          </button>
+        </div>
+        <div className="preview-box">         
+        </div>
+        </>
+        :
+        <>
+        <span>@{username}</span>  
+        <textarea
+          className="thread-textarea"
+          placeholder="¿Qué quieres compartir?"
+          value={body}
+          maxLength={240}
+          onChange={(e) => setBody(e.target.value)}
+        />
+        <div className="counter">
+          {body.length}/240
+        </div>
 
-      <br />
-      <br />
+        <div className="buttons">
+          <button
+            className="btn btn-primary"
+            onClick={handlePublishThread}
+          >
+            Publicar Thread
+          </button>
 
-      <textarea
-  placeholder="¿Qué estás pensando?"
-  value={body}
-  maxLength={240}
-  onChange={(e) => setBody(e.target.value)}
-  rows={4}
-  style={{
-    width: "100%",
-    maxWidth: "600px",
-    padding: "12px",
-    borderRadius: "12px",
-    resize: "none",
-    fontSize: "16px",
-  }}
-/>
-<div
-  style={{
-    width: "100%",
-    maxWidth: "600px",
-    textAlign: "right",
-    marginTop: "4px",
-  }}
->
-  {body.length}/240
-</div>
-    <div style={{columnGap:20}}>
-      <button onClick={handlePublishThread}>
-        Publicar Thread
-      </button>
+          <button
+            className="btn btn-secondary"
+            onClick={handleTest}
+          >
+            Ver Link
+          </button>
+        </div>
 
-      <button onClick={handleTest}>
-        Ver publicación
-      </button>
-    </div>
-    {
-      lastPostUrl === '' ? null :
-    <a href={lastPostUrl} target="_blank" >
-      <span>{lastPostUrl === '' ? null : lastPostUrl}</span>      
-    </a>
-    }
+        {lastPostUrl && (
+          <a
+            href={lastPostUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="link-card"
+          >
+            🔗 Abrir publicación
+          </a>
+        )}
+        </>
+      }
+        
+
+        
+
+        
+      </div>
     </div>
   );
 }
