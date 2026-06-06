@@ -8,7 +8,7 @@ function App() {
   const [body, setBody] = useState("");
   const [lastPermlink, setLastPermlink] = useState("");
   const [lastPostUrl, setLastPostUrl] = useState("");
-  const {username,isAuthenticated,login,setUsername}=useUser()
+  const {username,isAuthenticated,login,setUsername,language,setLanguage,t,logout}=useUser()
 
 
 
@@ -69,27 +69,35 @@ const handleLogin = async () => {
   return (
     <div className="app">
       <div className="card">
+        <header className="top-options_container">
+          <button
+          className="language-btn"
+          onClick={()=>setLanguage(prev => (prev === "en" ? "es" : "en"))}
+          >{language === "es" ? "English" : "Spanish"}</button>
+          <button
+          onClick={()=>logout()}
+          className="logout-btn"
+          >{t("logout")}</button>
+        </header>
         <h1 className="title">
           🚀 InLeo Re-poster Web 3.0
         </h1>
 
         <span className="description">
-          Comparte un enlace de tu contenido original,
-          añade una breve descripción y hashtags.
-          Tu publicación quedará registrada en Hive
-          y será accesible de forma permanente acumulando ganancias durante 7 dias.
+         {t("description")}
         </span>
         {isAuthenticated === false ? 
         <>
         <div className="credentials_box">
-          <input type="text" 
+          <input type="text"
+            placeholder="text your hive username" 
             value={username}
             onChange={(e)=>setUsername(e.target.value)}
           />
         <button 
         onClick={()=>handleLogin()}
         className="btn btn-keychain">
-            Acceder con Hive Keychain
+            {t("login")}
           </button>
         </div>
         <div className="preview-box">         
@@ -97,10 +105,10 @@ const handleLogin = async () => {
         </>
         :
         <>
-        <span>@{username}</span>  
+        <span className="username_text">@{username}</span>  
         <textarea
           className="thread-textarea"
-          placeholder="¿Qué quieres compartir?"
+          placeholder={t("placheHolderInfo")}
           value={body}
           maxLength={240}
           onChange={(e) => setBody(e.target.value)}
@@ -114,14 +122,14 @@ const handleLogin = async () => {
             className="btn btn-primary"
             onClick={handlePublishThread}
           >
-            Publicar Thread
+            {t("publish")}
           </button>
 
           <button
             className="btn btn-secondary"
             onClick={handleTest}
           >
-            Ver Link
+            {t("showLink")}            
           </button>
         </div>
 
@@ -132,7 +140,7 @@ const handleLogin = async () => {
             rel="noopener noreferrer"
             className="link-card"
           >
-            🔗 Abrir publicación
+            🔗 {t("openLink")}
           </a>
         )}
         </>

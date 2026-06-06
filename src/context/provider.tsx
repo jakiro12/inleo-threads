@@ -1,11 +1,13 @@
-import {
+import React, {
   createContext,
   useContext,
   useEffect,
   useState,
   type ReactNode,
+  type SetStateAction,
 } from "react";
 import { loginWithKeychain } from "../components/login-extension";
+import { translations } from "../utils/translations";
 
 type AuthContextType = {
   username: string;
@@ -13,6 +15,9 @@ type AuthContextType = {
   isAuthenticated: boolean;
   login: (username: string) => Promise<boolean>;
   logout: () => void;
+  setLanguage:React.Dispatch<SetStateAction<"es"|"en">>
+  language:"es"|"en",
+  t:(key:string)=>string
 };
 
 export const UserContext =
@@ -27,7 +32,7 @@ export const UserProvider = ({
 }) => {
   const [username, setUsernameState] =
     useState("");
-
+  const [language,setLanguage]=useState<"es"|"en">("en")
   const [isAuthenticated, setIsAuthenticated] =
     useState(false);
 
@@ -74,7 +79,13 @@ export const UserProvider = ({
     setUsernameState("");
     setIsAuthenticated(false);
   };
-
+const t = (key: string): string => {
+  return (
+    translations[language][
+      key as keyof typeof translations.en
+    ] || key
+  );
+};
   return (
     <UserContext.Provider
       value={{
@@ -83,6 +94,9 @@ export const UserProvider = ({
         isAuthenticated,
         login,
         logout,
+        language,
+        setLanguage,
+        t
       }}
     >
       {children}
