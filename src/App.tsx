@@ -75,6 +75,8 @@ const handleLogin = async () => {
           onClick={()=>setLanguage(prev => (prev === "en" ? "es" : "en"))}
           >{language === "es" ? "English" : "Spanish"}</button>
           <button
+          style={{display:isAuthenticated === false?'none': 'block'}}
+          disabled={!isAuthenticated}
           onClick={()=>logout()}
           className="logout-btn"
           >{t("logout")}</button>
@@ -90,7 +92,7 @@ const handleLogin = async () => {
         <>
         <div className="credentials_box">
           <input type="text"
-            placeholder="text your hive username" 
+            placeholder="Hive username" 
             value={username}
             onChange={(e)=>setUsername(e.target.value)}
           />
