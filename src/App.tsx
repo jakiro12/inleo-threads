@@ -3,11 +3,13 @@ import "./App.css";
 import { publishThread } from "./hive/publish/publishNewThread";
 import { getUserPost } from "./hive/node/tester";
 import { useUser } from "./context/provider";
+import { MessageAlert } from "./components/alert";
 
 function App() {
-  const [body, setBody] = useState("");
-  const [lastPermlink, setLastPermlink] = useState("");
-  const [lastPostUrl, setLastPostUrl] = useState("");
+  const [body, setBody] = useState<string>("");
+  const [lastPermlink, setLastPermlink] = useState<string>("");
+  const [lastPostUrl, setLastPostUrl] = useState<string>("");
+  const [messageInfo,setMessageInfo]=useState<string>("")
   const {username,isAuthenticated,login,setUsername,language,setLanguage,t,logout}=useUser()
 
 
@@ -26,23 +28,23 @@ function App() {
 
       if (result.success) {
         setLastPermlink(permlink);
-        alert("Thread publicado");
+        setMessageInfo("Thread publicado")
       }
     } catch (err) {
       console.error(err);
-      alert("Error publicando");
+      setMessageInfo("Error publicando")
     }
   }
 
   async function handleTest() {
     try {
       if (!username) {
-        alert("Ingresa un usuario");
+        setMessageInfo("Ingresa un usuario")
         return;
       }
 
       if (!lastPermlink) {
-        alert("Todavía no publicaste ningún thread");
+        setMessageInfo("Todavía no publicaste ningún thread")
         return;
       }
 
@@ -56,16 +58,19 @@ function App() {
       setLastPostUrl(postUrl);
     } catch (err) {
       console.error(err);
-      alert("Error obteniendo publicación");
+      setMessageInfo("Error obteniendo publicación")
     }
   }
 const handleLogin = async () => {
   const success = await login(username);
 
   if (!success) {
-    alert("Login cancelado");
+    setMessageInfo("Login cancelado")
   }
 };
+const handleCleanMessage=()=>{
+  setMessageInfo("")
+}
   return (
     <div className="app">
       <div className="card">
@@ -153,6 +158,12 @@ const handleLogin = async () => {
 
         
       </div>
+      {messageInfo === '' ? null :
+      <MessageAlert
+        messageInfo={messageInfo}
+        cleanMessage={handleCleanMessage}
+      />
+      }
     </div>
   );
 }
