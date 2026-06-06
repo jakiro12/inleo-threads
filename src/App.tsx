@@ -28,23 +28,23 @@ function App() {
 
       if (result.success) {
         setLastPermlink(permlink);
-        setMessageInfo("Thread publicado")
+        setMessageInfo(t("publishSuccess"))
       }
     } catch (err) {
       console.error(err);
-      setMessageInfo("Error publicando")
+      setMessageInfo(t("errorPublishing"))
     }
   }
 
   async function handleTest() {
     try {
       if (!username) {
-        setMessageInfo("Ingresa un usuario")
+        setMessageInfo(t("textUsernameAlert"))
         return;
       }
 
       if (!lastPermlink) {
-        setMessageInfo("Todavía no publicaste ningún thread")
+        setMessageInfo(t("threadNotPublishYet"))
         return;
       }
 
@@ -58,14 +58,14 @@ function App() {
       setLastPostUrl(postUrl);
     } catch (err) {
       console.error(err);
-      setMessageInfo("Error obteniendo publicación")
+      setMessageInfo(t("errorGettingPublish"))
     }
   }
 const handleLogin = async () => {
   const success = await login(username);
 
   if (!success) {
-    setMessageInfo("Login cancelado")
+    setMessageInfo(t("loginCanceled"))
   }
 };
 const handleCleanMessage=()=>{
