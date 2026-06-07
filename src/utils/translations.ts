@@ -13,7 +13,8 @@ export const translations = {
     threadNotPublishYet:"Todavía no publicaste ningún thread",
     textUsernameAlert:"Ingresa un usuario",
     errorPublishing:"Error publicando",
-    publishSuccess:"Thread publicado"
+    publishSuccess:"Thread publicado",
+    closebtn:"Cerrar"
   },
   en: {
     login: "Login with Hive Keychain",
@@ -29,6 +30,7 @@ export const translations = {
     threadNotPublishYet:"You haven't posted any threads yet.",
     textUsernameAlert:"Text an username",
     errorPublishing:"Error publishing",
-    publishSuccess:"Thread publish"
+    publishSuccess:"Thread publish",
+    closebtn:"Close"
   },
 };

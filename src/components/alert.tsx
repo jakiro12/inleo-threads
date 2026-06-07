@@ -1,3 +1,5 @@
+import { useUser } from "../context/provider";
+
 interface Props {
   cleanMessage: () => void;
   messageInfo: string;
@@ -7,6 +9,8 @@ export const MessageAlert: React.FC<Props> = ({
   cleanMessage,
   messageInfo,
 }) => {
+    const {t}=useUser()
+  
   return (
     <article
       style={{
@@ -39,32 +43,44 @@ export const MessageAlert: React.FC<Props> = ({
         }}
       >
         <div
-          style={{
-            fontSize: "1rem",
-            lineHeight: 1.6,
-            color: "#333",
-            wordBreak: "break-word",
-          }}
-        >
-          {messageInfo}
-        </div>
+  style={{
+    fontSize: "1.05rem",
+    lineHeight: 1.8,
+    color: "#1f2937",
+    fontWeight: "bold",
+    letterSpacing: "0.01em",
+    textAlign: "center",
+    wordBreak: "break-word",
+    maxWidth: "65ch",
+    margin: "0 auto",
+    fontFamily:
+      "Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+  }}
+>
+  {messageInfo}
+</div>
 
-        <button
-          onClick={cleanMessage}
-          style={{
-            alignSelf: "flex-end",
-            border: "none",
-            borderRadius: "12px",
-            padding: "0.75rem 1.25rem",
-            background: "#2563eb",
-            color: "#fff",
-            fontWeight: 600,
-            cursor: "pointer",
-            transition: "0.2s",
-          }}
-        >
-          Cerrar
-        </button>
+<button
+  onClick={cleanMessage}
+  style={{
+    width: "fit-content",
+    border: "none",
+    borderRadius: "14px",
+    padding: "0.85rem 1.5rem",
+    background:
+      "linear-gradient(135deg, #2563eb 0%, #3b82f6 100%)",
+    color: "#fff",
+    fontWeight: 600,
+    fontSize: "0.95rem",
+    letterSpacing: "0.02em",
+    cursor: "pointer",
+    transition: "all 0.2s ease",
+    alignSelf: "center",
+    boxShadow: "0 8px 20px rgba(37,99,235,0.25)",
+  }}
+>
+  {t("closebtn")}
+</button>
       </div>
     </article>
   );
