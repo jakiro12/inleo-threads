@@ -15,6 +15,8 @@ function App() {
 
 
   async function handlePublishThread() {
+    if(body.length === 0) return setMessageInfo(t("emptyThread"))
+    if(body.length > 240) return setMessageInfo(t("threadLengthExceeded"))
     try {
       const permlink = `re-leothreads-${Date.now()}`;
 

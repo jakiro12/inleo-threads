@@ -14,7 +14,9 @@ export const translations = {
     textUsernameAlert:"Ingresa un usuario",
     errorPublishing:"Error publicando",
     publishSuccess:"Thread publicado",
-    closebtn:"Cerrar"
+    closebtn:"Cerrar",
+    emptyThread:"No puedes publicar un Thread vacio",
+    threadLengthExceeded:"No puedes publicar un Thread mayor a 240 caracteres."
   },
   en: {
     login: "Login with Hive Keychain",
@@ -31,6 +33,8 @@ export const translations = {
     textUsernameAlert:"Text an username",
     errorPublishing:"Error publishing",
     publishSuccess:"Thread publish",
-    closebtn:"Close"
+    closebtn:"Close",
+    emptyThread:"You cannot post an empty thread",
+    threadLengthExceeded:"You cannot post a thread longer than 240 characters."
   },
 };
