@@ -4,6 +4,7 @@ import { publishThread } from "./hive/publish/publishNewThread";
 import { getUserPost } from "./hive/node/tester";
 import { useUser } from "./context/provider";
 import { MessageAlert } from "./components/alert";
+import LogoThreads from "./components/logo/leo";
 
 function App() {
   const [body, setBody] = useState<string>("");
@@ -75,6 +76,7 @@ const handleCleanMessage=()=>{
 }
   return (
     <div className="app">
+      <LogoThreads/>
       <div className="card">
         <header className="top-options_container">
           <button
@@ -89,7 +91,7 @@ const handleCleanMessage=()=>{
           >{t("logout")}</button>
         </header>
         <h1 className="title">
-          🚀 InLeo Re-poster Web 3.0
+          InLeo Re-poster Web 3.0
         </h1>
 
         <span className="description">

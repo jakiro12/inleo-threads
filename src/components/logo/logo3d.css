@@ -1,0 +1,50 @@
+.scene {
+  width: 150px;
+  height: 150px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  perspective: 800px;
+
+  position: fixed;
+  right: 0;
+  bottom: 0;
+}
+
+.coin {
+  position: relative;
+
+  width: 80px;
+  height: 80px;
+
+  transform-style: preserve-3d;
+
+  animation: rotate3d 6s linear infinite;
+}
+
+.layer {
+  position: absolute;
+
+  width: 80px;
+  height: 80px;
+
+  left: 0;
+  top: 0;
+
+  object-fit: contain;
+
+  backface-visibility: visible;
+-webkit-backface-visibility: visible;
+}
+
+@keyframes rotate3d {
+  from {
+    transform: rotateY(0deg);
+  }
+
+  to {
+    transform: rotateY(360deg);
+  }
+}
